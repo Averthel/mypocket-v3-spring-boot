@@ -56,25 +56,4 @@ public class Comment implements Serializable {
                 ", user=" + user.getUsername() +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Comment)) return false;
-
-        Comment comment = (Comment) o;
-
-        if (getId() != null ? !getId().equals(comment.getId()) : comment.getId() != null) return false;
-        if (getContent() != null ? !getContent().equals(comment.getContent()) : comment.getContent() != null)
-            return false;
-        return getUser() != null ? getUser().equals(comment.getUser()) : comment.getUser() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
-        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-        return result;
-    }
 }

@@ -1,7 +1,11 @@
 package pl.mypocket.model;
 
 
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +20,29 @@ public class User implements Serializable {
     @Column(name = "id_user")
     private Long id;
     @Column(name = "username", nullable = false)
+    @NotNull
+    @Size(max=20)
     private String username;
     @Column(name = "e_mail", nullable = false)
+    @Email
     private String eMail;
     @Column(name = "password", nullable = false)
+    @Size(min=6)
     private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ProductList> productList = new ArrayList<>();
+
+    public void addComment(Comment comment){
+        comment.setUser(this);
+        getComments().add(comment);
+    }
+
+    public void addProductList(ProductList productList){
+        productList.setUser(this);
+        getProductList().add(productList);
+    }
 
     public User() {
     }

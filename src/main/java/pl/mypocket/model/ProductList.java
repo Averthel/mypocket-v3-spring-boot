@@ -56,6 +56,14 @@ public class ProductList implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "ProductList{" +
+                "products=" + products +
+                ", user=" + user.getUsername() +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProductList)) return false;
