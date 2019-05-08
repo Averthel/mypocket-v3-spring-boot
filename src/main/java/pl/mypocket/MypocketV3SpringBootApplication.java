@@ -26,23 +26,12 @@ public class MypocketV3SpringBootApplication {
         UserService userService = ctx.getBean(UserService.class);
 
         User user = new User("Mike", "aa@wp.pl", "haslo1");
+        User user2 = new User("Pati", "aa2@wp.pl", "haslo13");
         User badUser = new User("Mike", "badMail", null);
 
-        userService.addUser(user);
-        userService.addUser(badUser);
 
-        System.out.println("Userzy: " + userService.getUsers().size());
-        for (User p : userService.getUsers()) {
-            System.out.println(p);
-        }
-
-
+        
         ctx.close();
-    }
-
-    @Bean
-    public Validator validator() {
-        return new LocalValidatorFactoryBean();
     }
 
 }

@@ -11,36 +11,46 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 
 import pl.mypocket.model.User;
+import pl.mypocket.repository.UserRepository;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 
 @Service
 public class UserService {
 
-    private Set<User> users;
-
-    private Validator validator;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(Validator validator) {
-        this.validator = validator;
-        this.users = new HashSet<>();
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public void addUser(User user){
-        Errors errors = new BeanPropertyBindingResult(user, "user");
-        validator.validate(user, errors);
-        if(errors.hasErrors()){
-            System.err.printf("There are errors(%d):\n", errors.getErrorCount());
-            for(ObjectError err: errors.getAllErrors()){
-                System.err.println(err.getDefaultMessage());
-            }
-        }else{
-            users.add(user);
+    public void addUser(User user) {
+        try {
+            userRepository.addUser(user);
+        } catch (ConstraintViolationException e) {
+            Set<ConstraintViolation<?>> errors = e.getConstraintViolations();
+            errors.forEach(err -> System.err.println(
+                    err.getPropertyPath() + " " +
+                            err.getInvalidValue() + " " +
+                            err.getMessage()));
+        }
+
+    }
+
+    public void removeUser(User user){
+        try{
+            userRepository.removeUser(user);
+        }catch (ConstraintViolationException e) {
+            Set<ConstraintViolation<?>> errors = e.getConstraintViolations();
+            errors.forEach(err -> System.err.println(
+                    err.getPropertyPath() + " " +
+                            err.getInvalidValue() + " " +
+                            err.getMessage()));
         }
     }
 
-    public Set<User> getUsers(){
-        return this.users;
-    }
 
 }
