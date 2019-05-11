@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+    <h2>Hello in my world!</h2>
+
+
+    <h1>Register User (Validator)</h1>
+        <p th:if="validationMessage" th:text="${ValidationMessage}">Default validation message</p>
+
+
+    <form action="#" method="post" th:action="@{/}" th:object="${user}">
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username errors</p>
+        <input type="text" th:field="*{username}" placeholder="Username" />
+        <br />
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password errors</p>
+        <input type="password" th:field="*{password}" placeholder="Password" />
+        <br />
+        <p th:if="${#fields.hasErrors('eMail')}" th:errors="*{eMail}">Email errors</p>
+        <input type="email" th:field="*{eMail}" placeholder="E-mail" />
+        <br /><br />
+        <input type="submit" value="Validate" />
+    </form>
+
 
 </body>
 </html>
