@@ -7,7 +7,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.mypocket.model.Product;
 import pl.mypocket.model.User;
 
 import javax.validation.Valid;

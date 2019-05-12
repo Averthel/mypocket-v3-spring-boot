@@ -9,10 +9,10 @@
 
 
     <h1>Register User (Validator)</h1>
-        <p th:if="validationMessage" th:text="${ValidationMessage}">Default validation message</p>
+    <p th:if="validationMessage" th:text="${validationMessage}">Default validation message</p>
 
-
-    <form action="#" method="post" th:action="@{/}" th:object="${user}">
+    <p th:if="${message}" th:text="${message}">This will show if user was added</p>
+    <form action="#" method="post" th:action="@{/add}" th:object="${user}">
         <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username errors</p>
         <input type="text" th:field="*{username}" placeholder="Username" />
         <br />
@@ -24,6 +24,8 @@
         <br /><br />
         <input type="submit" value="Validate" />
     </form>
+
+
 
 
 </body>

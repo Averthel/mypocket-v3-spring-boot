@@ -5,7 +5,6 @@ package pl.mypocket.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,16 +19,16 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Long id;
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", unique = true)
     @NotEmpty(message = "{pl.mypocket.model.User.username.NotEmpty}")
     @Size(max=20)
     private String username;
-    @Column(name = "e_mail", nullable = false)
+    @Column(name = "e_mail", unique = true)
     @Email
     @NotEmpty(message = "{pl.mypocket.model.User.email.Email}")
     @NotEmpty(message = "{pl.mypocket.model.User.email.NotEmpty}")
     private String eMail;
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     @Size(min=6)
     @NotEmpty(message = "{pl.mypocket.model.User.password.Size}")
     private String password;

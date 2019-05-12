@@ -1,14 +1,14 @@
 package pl.mypocket.Service;
 
-import java.util.HashSet;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.Validator;
+
 
 import pl.mypocket.model.User;
 import pl.mypocket.repository.UserRepository;
@@ -27,9 +27,26 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void addUser(User user) {
+
+    public boolean addUser(User user) {
         try {
-            userRepository.addUser(user);
+            userRepository.save(user);
+            return true;
+        } catch (ConstraintViolationException e) {
+            Set<ConstraintViolation<?>> errors = e.getConstraintViolations();
+            errors.forEach(err -> System.err.println(
+                    err.getPropertyPath() + " " +
+                            err.getInvalidValue() + " " +
+                            err.getMessage()));
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void removeUser(User user) {
+        try {
+            userRepository.delete(user);
         } catch (ConstraintViolationException e) {
             Set<ConstraintViolation<?>> errors = e.getConstraintViolations();
             errors.forEach(err -> System.err.println(
@@ -37,20 +54,10 @@ public class UserService {
                             err.getInvalidValue() + " " +
                             err.getMessage()));
         }
-
     }
 
-    public void removeUser(User user){
-        try{
-            userRepository.removeUser(user);
-        }catch (ConstraintViolationException e) {
-            Set<ConstraintViolation<?>> errors = e.getConstraintViolations();
-            errors.forEach(err -> System.err.println(
-                    err.getPropertyPath() + " " +
-                            err.getInvalidValue() + " " +
-                            err.getMessage()));
-        }
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
-
 
 }
