@@ -1,17 +1,17 @@
 package pl.mypocket.Service;
 
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 import pl.mypocket.model.User;
+import pl.mypocket.model.UserRole;
 import pl.mypocket.repository.UserRepository;
+import pl.mypocket.repository.UserRoleRepository;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -20,15 +20,32 @@ import javax.validation.ConstraintViolationException;
 @Service
 public class UserService {
 
+    private static final String DEFAULT_ROLE = "ROLE_USER";
     private UserRepository userRepository;
+    private UserRoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
 
-    public boolean addUser(User user) {
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRoleRepository(UserRoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+    public boolean addWithDefaultRole(User user) {
+        UserRole defaultRole = roleRepository.findByRole(DEFAULT_ROLE);
+        user.getRoles().add(defaultRole);
+        String passwordHash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordHash);
         try {
             userRepository.save(user);
             return true;
@@ -44,6 +61,8 @@ public class UserService {
         }
     }
 
+
+    /*
     public void removeUser(User user) {
         try {
             userRepository.delete(user);
@@ -55,6 +74,8 @@ public class UserService {
                             err.getMessage()));
         }
     }
+
+    */
 
     public List<User> findAll() {
         return userRepository.findAll();

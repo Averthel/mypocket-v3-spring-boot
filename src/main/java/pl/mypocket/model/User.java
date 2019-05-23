@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -32,6 +34,8 @@ public class User implements Serializable {
     @Size(min=6)
     @NotEmpty(message = "{pl.mypocket.model.User.password.Size}")
     private String password;
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<UserRole> roles = new HashSet<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -104,6 +108,14 @@ public class User implements Serializable {
         this.productList = productList;
     }
 
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -127,6 +139,7 @@ public class User implements Serializable {
         if (geteMail() != null ? !geteMail().equals(user.geteMail()) : user.geteMail() != null) return false;
         if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
             return false;
+        if (getRoles() != null ? !getRoles().equals(user.getRoles()) : user.getRoles() != null) return false;
         if (getComments() != null ? !getComments().equals(user.getComments()) : user.getComments() != null)
             return false;
         return getProductList() != null ? getProductList().equals(user.getProductList()) : user.getProductList() == null;
@@ -138,6 +151,7 @@ public class User implements Serializable {
         result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         result = 31 * result + (geteMail() != null ? geteMail().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getRoles() != null ? getRoles().hashCode() : 0);
         result = 31 * result + (getComments() != null ? getComments().hashCode() : 0);
         result = 31 * result + (getProductList() != null ? getProductList().hashCode() : 0);
         return result;
