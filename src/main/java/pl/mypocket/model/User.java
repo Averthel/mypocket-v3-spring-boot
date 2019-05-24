@@ -31,8 +31,8 @@ public class User implements Serializable {
     @NotEmpty(message = "{pl.mypocket.model.User.email.NotEmpty}")
     private String eMail;
     @Column(name = "password")
-    @Size(min=6)
-    @NotEmpty(message = "{pl.mypocket.model.User.password.Size}")
+    @Size(min=6, message = "{pl.mypocket.model.User.password.Size}")
+    @NotEmpty(message = "{pl.mypocket.model.User.password.NotEmpty}")
     private String password;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();

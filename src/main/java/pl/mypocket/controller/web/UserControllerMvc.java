@@ -40,6 +40,7 @@ public class UserControllerMvc {
         } else if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(err -> System.out.println(err.getDefaultMessage()));
+            return "registerForm";
         }else{
             List<User> users = userService.findAll();
             for(User e: users){
