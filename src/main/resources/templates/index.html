@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MyPocket</title>
-
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-
-
-
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
     <header>
@@ -15,10 +11,10 @@
 
             <nav id="topnav">
                 <ul class="menu">
-                    <li><a href="index.html">Strona główna<a/></li>
-                    <li><a href="userpanel.html">Panel użytkownika<a/></li>
+                    <li><a href="/">Strona główna<a/></li>
+                    <li><a href="userpanel">Panel użytkownika<a/></li>
                     <li><a href="#" th:href="@{/register}">Rejestracja<a/></li>
-                    <li><a href="login_form.html">Zaloguj się<a/></li>
+                    <li><a href="#" th:href="@{/login}">Zaloguj się<a/></li>
                 </ul>
             </nav>
 
@@ -27,10 +23,21 @@
     <p th:if="validationMessage" th:text="${validationMessage}">Default validation message</p>
     <p th:if="${message}" th:text="${message}">This will show if user was added</p>
 
-    <a href="#" th:href="@{/register}">Zarejestruj się człeku!</a>
+    <h3>Dodaj produkt</h3>
+    <div id="addForm">
+    <form action="#" th:action="@{/addProduct}" method="post" th:object="${Product}">
+        <p>Nazwa: </p>
+        <input type="text" name="name">
+        <br />
+        <p>Kalorie na 100g:</p>
+        <input type="number" name="calories">
+        <br /><br />
+        <textarea rows="5" cols="20" name="details">Opis...</textarea>
+        <br />
+        <input type="submit"  value="Dodaj">
+    </form>
+    </div>
 
-    <br /><br />
-    <a href="userpanel">Go to user panel</a>
 
     <!--
     <form action="logmeout" th:action="@{/logmeout}" method="post">

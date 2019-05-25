@@ -23,6 +23,7 @@ public class HomeController {
         return "index";
     }
 
+
     @PostMapping("/")
     public String consumeForm(@Valid @ModelAttribute User user, BindingResult result){
         if(result.hasErrors()){
@@ -37,8 +38,5 @@ public class HomeController {
         return "userpanel";
     }
 
-    @GetMapping("/loginform")
-    public String loginForm(){
-        return "login_form";
-    }
+
 }

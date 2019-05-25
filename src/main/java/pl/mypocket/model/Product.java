@@ -16,8 +16,8 @@ public class Product implements Serializable {
     private Long id;
     @Column(name="product_name", nullable = false)
     private String name;
-    @Column(name="price")
-    private Double price;
+    @Column(name="calories")
+    private Double calories;
     @Column(name="details")
     private String details;
     @ManyToMany(mappedBy = "products")
@@ -25,9 +25,9 @@ public class Product implements Serializable {
 
     public Product(){}
 
-    public Product(String name, Double price, String details) {
+    public Product(String name, Double calories, String details) {
         this.name = name;
-        this.price = price;
+        this.calories = calories;
         this.details = details;
     }
 
@@ -47,12 +47,12 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getCalories() {
+        return calories;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setCalories(Double calories) {
+        this.calories = calories;
     }
 
     public String getDetails() {
@@ -76,7 +76,7 @@ public class Product implements Serializable {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
+                ", calories=" + calories +
                 ", details='" + details + '\'' +
                 '}';
     }
@@ -90,7 +90,8 @@ public class Product implements Serializable {
 
         if (getId() != null ? !getId().equals(product.getId()) : product.getId() != null) return false;
         if (getName() != null ? !getName().equals(product.getName()) : product.getName() != null) return false;
-        if (getPrice() != null ? !getPrice().equals(product.getPrice()) : product.getPrice() != null) return false;
+        if (getCalories() != null ? !getCalories().equals(product.getCalories()) : product.getCalories() != null)
+            return false;
         if (getDetails() != null ? !getDetails().equals(product.getDetails()) : product.getDetails() != null)
             return false;
         return getProductList() != null ? getProductList().equals(product.getProductList()) : product.getProductList() == null;
@@ -100,7 +101,7 @@ public class Product implements Serializable {
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
+        result = 31 * result + (getCalories() != null ? getCalories().hashCode() : 0);
         result = 31 * result + (getDetails() != null ? getDetails().hashCode() : 0);
         result = 31 * result + (getProductList() != null ? getProductList().hashCode() : 0);
         return result;

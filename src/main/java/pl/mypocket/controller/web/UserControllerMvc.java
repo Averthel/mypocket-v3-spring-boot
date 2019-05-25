@@ -8,9 +8,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.mypocket.Service.UserService;
 import pl.mypocket.model.User;
-import pl.mypocket.repository.UserRepository;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,6 +24,11 @@ public class UserControllerMvc {
     @Autowired
     public UserControllerMvc(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/login")
+    public String loginForm(){
+        return "login_form";
     }
 
     @GetMapping("/register")
