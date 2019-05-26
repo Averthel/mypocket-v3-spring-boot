@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <meta charset="UTF-8">
+    <title>Products List</title>
+</head>
+<body>
+
+<div th:if="not ${productList.isEmpty()}">
+<h1>Twoje produkty: </h1>
+<table border="1">
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Time</th>
+    </tr>
+    <tr th:each="product: ${productList}" th:object="${product}">
+        <td th:text="*{name}">Masło</td>
+        <td th:tetx="*{calories}">22</td>
+        <td th:text="|*{details}">Orzechowe</td>
+    </tr>
+</table>
+</div>
+<div th:if="${productList.isEmpty()}">
+    <h1>There is no data yet :(</h1>
+</div>
+
+</body>
+</html>

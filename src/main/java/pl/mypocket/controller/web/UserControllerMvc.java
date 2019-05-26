@@ -1,6 +1,9 @@
 package pl.mypocket.controller.web;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.mypocket.Service.ProductService;
 import pl.mypocket.Service.UserService;
+import pl.mypocket.model.Product;
 import pl.mypocket.model.User;
 
 import javax.validation.Valid;
@@ -19,11 +24,13 @@ import java.util.List;
 public class UserControllerMvc {
 
     private UserService userService;
+    private ProductService productService;
 
 
     @Autowired
-    public UserControllerMvc(UserService userService) {
+    public UserControllerMvc(UserService userService, ProductService productService) {
         this.userService = userService;
+        this.productService = productService;
     }
 
     @GetMapping("/login")
@@ -59,6 +66,27 @@ public class UserControllerMvc {
             }
         }
         return "index";
+    }
+
+    @PostMapping("/addProductToList")
+    public String addProductToList(@Valid @ModelAttribute Product product, BindingResult result, Model model){
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        boolean isProductAdded = productService.addProductToDatabase(product);
+        User user = userService.findByUsername(userName);
+        if(isProductAdded){
+            user.addProductToList(product);
+        }
+        user.addProductToList(product);
+        userService.save(user);
+        return "index";
+    }
+
+    @GetMapping("/show_list")
+    public String showList(Model model){
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Product> productList = userService.findByUsername(userName).getProductList();
+        model.addAttribute("productList", productList);
+        return "show_list";
     }
 }
 

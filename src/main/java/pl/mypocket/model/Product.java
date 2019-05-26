@@ -14,14 +14,15 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_product")
     private Long id;
-    @Column(name="product_name", nullable = false)
+    @Column(name="product_name")
     private String name;
     @Column(name="calories")
     private Double calories;
     @Column(name="details")
     private String details;
-    @ManyToMany(mappedBy = "products")
-    private List<ProductList> productList;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Product(){}
 
@@ -63,12 +64,12 @@ public class Product implements Serializable {
         this.details = details;
     }
 
-    public List<ProductList> getProductList() {
-        return productList;
+    public User getUser() {
+        return user;
     }
 
-    public void setProductList(List<ProductList> productList) {
-        this.productList = productList;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -81,29 +82,4 @@ public class Product implements Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-
-        Product product = (Product) o;
-
-        if (getId() != null ? !getId().equals(product.getId()) : product.getId() != null) return false;
-        if (getName() != null ? !getName().equals(product.getName()) : product.getName() != null) return false;
-        if (getCalories() != null ? !getCalories().equals(product.getCalories()) : product.getCalories() != null)
-            return false;
-        if (getDetails() != null ? !getDetails().equals(product.getDetails()) : product.getDetails() != null)
-            return false;
-        return getProductList() != null ? getProductList().equals(product.getProductList()) : product.getProductList() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getCalories() != null ? getCalories().hashCode() : 0);
-        result = 31 * result + (getDetails() != null ? getDetails().hashCode() : 0);
-        result = 31 * result + (getProductList() != null ? getProductList().hashCode() : 0);
-        return result;
-    }
 }

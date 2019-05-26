@@ -31,24 +31,24 @@ public class User implements Serializable {
     @NotEmpty(message = "{pl.mypocket.model.User.email.NotEmpty}")
     private String eMail;
     @Column(name = "password")
-    @Size(min=6, message = "{pl.mypocket.model.User.password.Size}")
     @NotEmpty(message = "{pl.mypocket.model.User.password.NotEmpty}")
+    @Size(min=6, message = "{pl.mypocket.model.User.password.Size}")
     private String password;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<ProductList> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
     public void addComment(Comment comment){
         comment.setUser(this);
         getComments().add(comment);
     }
 
-    public void addProductList(ProductList productList){
-        productList.setUser(this);
-        getProductList().add(productList);
+    public void addProductToList(Product product){
+        product.setUser(this);
+        getProductList().add(product);
     }
 
     public User() {
@@ -100,11 +100,12 @@ public class User implements Serializable {
         this.comments = comments;
     }
 
-    public List<ProductList> getProductList() {
+
+    public List<Product> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<ProductList> productList) {
+    public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
 
@@ -126,34 +127,4 @@ public class User implements Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-
-        User user = (User) o;
-
-        if (getId() != null ? !getId().equals(user.getId()) : user.getId() != null) return false;
-        if (getUsername() != null ? !getUsername().equals(user.getUsername()) : user.getUsername() != null)
-            return false;
-        if (geteMail() != null ? !geteMail().equals(user.geteMail()) : user.geteMail() != null) return false;
-        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
-            return false;
-        if (getRoles() != null ? !getRoles().equals(user.getRoles()) : user.getRoles() != null) return false;
-        if (getComments() != null ? !getComments().equals(user.getComments()) : user.getComments() != null)
-            return false;
-        return getProductList() != null ? getProductList().equals(user.getProductList()) : user.getProductList() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
-        result = 31 * result + (geteMail() != null ? geteMail().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getRoles() != null ? getRoles().hashCode() : 0);
-        result = 31 * result + (getComments() != null ? getComments().hashCode() : 0);
-        result = 31 * result + (getProductList() != null ? getProductList().hashCode() : 0);
-        return result;
-    }
 }
