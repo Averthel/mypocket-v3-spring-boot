@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.mypocket.Service.ProductService;
 import pl.mypocket.model.Product;
-import pl.mypocket.model.User;
 
 
 import javax.validation.Valid;

@@ -1,11 +1,14 @@
 package pl.mypocket.security;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -17,7 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception{
                  http
@@ -27,6 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/style.css").permitAll()
                          .anyRequest().authenticated()
                          .and()
-                         .formLogin();
+                         .formLogin().loginPage("/login").permitAll()
+                         .usernameParameter("user")
+                         .passwordParameter("pass")
+                         .and()
+                         .logout()
+                         .logoutUrl("/logmeout")
+                         .logoutSuccessUrl("/")
+                         .permitAll();
     }
 }
+

@@ -1,8 +1,7 @@
 package pl.mypocket.controller.web;
 
-import org.hibernate.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import pl.mypocket.Service.ProductService;
 import pl.mypocket.Service.UserService;
 import pl.mypocket.model.Product;
@@ -31,11 +29,6 @@ public class UserControllerMvc {
     public UserControllerMvc(UserService userService, ProductService productService) {
         this.userService = userService;
         this.productService = productService;
-    }
-
-    @GetMapping("/login")
-    public String loginForm(){
-        return "login_form";
     }
 
     @GetMapping("/register")
@@ -65,7 +58,7 @@ public class UserControllerMvc {
                 }
             }
         }
-        return "index";
+        return "redirect:/";
     }
 
     @PostMapping("/addProductToList")
@@ -88,5 +81,6 @@ public class UserControllerMvc {
         model.addAttribute("productList", productList);
         return "show_list";
     }
+
 }
 
