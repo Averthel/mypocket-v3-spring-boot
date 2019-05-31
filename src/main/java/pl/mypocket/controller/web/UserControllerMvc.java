@@ -32,7 +32,7 @@ public class UserControllerMvc {
     }
 
     @GetMapping("/register")
-    public String register(Model model){
+    public String register(Model model) {
         model.addAttribute("user", new User());
         return "registerForm";
     }
@@ -46,36 +46,38 @@ public class UserControllerMvc {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(err -> System.out.println(err.getDefaultMessage()));
             return "registerForm";
-        }else{
+        } else {
             List<User> users = userService.findAll();
-            for(User e: users){
-                if(e.getUsername().equals(user.getUsername())){
+            for (User e : users) {
+                if (e.getUsername().equals(user.getUsername())) {
                     model.addAttribute("message", "Użytkownik o podanym nicku juz istenieje");
-                }else if(user.geteMail().equals(user.geteMail())){
+                } else if (user.geteMail().equals(user.geteMail())) {
                     model.addAttribute("message", "Użytkownik o podanym adresie e-mail juz istenieje");
-                }else{
+                } else {
                     model.addAttribute("message", "Dodanie użytkownika nie powidło się, przepraszamy.");
                 }
             }
         }
-        return "redirect:/";
+        return "index";
     }
 
     @PostMapping("/addProductToList")
-    public String addProductToList(@Valid @ModelAttribute Product product, BindingResult result, Model model){
+    public String addProductToList(@Valid @ModelAttribute Product product, BindingResult result, Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         boolean isProductAdded = productService.addProductToDatabase(product);
         User user = userService.findByUsername(userName);
-        if(isProductAdded){
+        if (isProductAdded) {
             user.addProductToList(product);
+            userService.save(user);
+            model.addAttribute("message", "Produkt " +product.getName()+ " dodany");
         }
-        user.addProductToList(product);
+        model.addAttribute("message", "Nie duało sie dodać produktu");
         userService.save(user);
         return "index";
     }
 
     @GetMapping("/show_list")
-    public String showList(Model model){
+    public String showList(Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Product> productList = userService.findByUsername(userName).getProductList();
         model.addAttribute("productList", productList);

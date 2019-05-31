@@ -1,7 +1,6 @@
 package pl.mypocket.model;
 
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -23,7 +22,7 @@ public class User implements Serializable {
     private Long id;
     @Column(name = "username", unique = true)
     @NotEmpty(message = "{pl.mypocket.model.User.username.NotEmpty}")
-    @Size(max=20)
+    @Size(max = 20)
     private String username;
     @Column(name = "e_mail", unique = true)
     @Email
@@ -32,7 +31,7 @@ public class User implements Serializable {
     private String eMail;
     @Column(name = "password")
     @NotEmpty(message = "{pl.mypocket.model.User.password.NotEmpty}")
-    @Size(min=6, message = "{pl.mypocket.model.User.password.Size}")
+    @Size(min = 6, message = "{pl.mypocket.model.User.password.Size}")
     private String password;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();
@@ -41,12 +40,12 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Product> productList = new ArrayList<>();
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         comment.setUser(this);
         getComments().add(comment);
     }
 
-    public void addProductToList(Product product){
+    public void addProductToList(Product product) {
         product.setUser(this);
         getProductList().add(product);
     }

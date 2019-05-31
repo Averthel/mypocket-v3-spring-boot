@@ -8,6 +8,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.mypocket.Logic.Calc;
 import pl.mypocket.Service.ProductService;
 import pl.mypocket.model.Product;
 
@@ -21,35 +22,43 @@ public class ProductControllerMvc {
     private ProductService productService;
 
     @Autowired
-    public ProductControllerMvc(ProductService productService){
-       this.productService = productService;
+    public ProductControllerMvc(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/addProdcut")
-    public String register(Model model){
+    public String register(Model model) {
         model.addAttribute("prodcut", new Product());
-        return "index";
+        return "redirect:/";
     }
 
 
     @PostMapping("/addProduct")
-    public String addProductToDatabase(@Valid @ModelAttribute Product product, BindingResult result, Model model){
+    public String addProductToDatabase(@Valid @ModelAttribute Product product, BindingResult result, Model model) {
         boolean isProductAdded = productService.addProductToDatabase(product);
-        if(isProductAdded){
-            model.addAttribute("message", "Produkt "+ product.getName() + " dodany");
-        }else if(result.hasErrors()){
+        if (isProductAdded) {
+            model.addAttribute("message", "Produkt " + product.getName() + " dodany");
+        } else if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(err -> System.out.println(err.getDefaultMessage()));
             return "index";
-        }else{
+        } else {
             List<Product> products = productService.findAll();
-            for(Product p: products){
-                if(p.getName().equals(product.getName())){
+            for (Product p : products) {
+                if (p.getName().equals(product.getName())) {
                     model.addAttribute("message", "Produkt o podanej nazwie juz istnieje w bazie danych");
                 }
             }
         }
-        return "index";
+        return "redirect:/";
+    }
+
+    @GetMapping("/userpanel")
+    public String allKcal(Model model){
+        List<Product> products = productService.findAll();
+        Double sumKcal = Calc.sumAllKcal(products);
+        model.addAttribute("sum", sumKcal);
+        return "userpanel";
     }
 
 

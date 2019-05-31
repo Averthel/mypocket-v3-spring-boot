@@ -3,28 +3,29 @@ package pl.mypocket.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+
 
 @Entity
-@Table(name="product")
+@Table(name = "product")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_product")
+    @Column(name = "id_product")
     private Long id;
-    @Column(name="product_name")
+    @Column(name = "product_name")
     private String name;
-    @Column(name="calories")
+    @Column(name = "calories")
     private Double calories;
-    @Column(name="details")
+    @Column(name = "details")
     private String details;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Product(){}
+    public Product() {
+    }
 
     public Product(String name, Double calories, String details) {
         this.name = name;

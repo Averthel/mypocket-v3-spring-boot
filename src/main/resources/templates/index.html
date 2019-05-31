@@ -6,62 +6,64 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-    <header>
-        <h1 class="logo">My Pocket &lt; /&gt;</h1>
+<header>
+    <h1 class="logo">My Pocket &lt; /&gt;</h1>
 
-            <nav id="topnav">
-                <div class="menu">
-                    <li><a href="/">Strona główna<a/></li>
-                    <li><a href="userpanel">Panel użytkownika<a/></li>
-                    <li><a href="#" th:href="@{/register}">Rejestracja<a/></li>
-                    <li ><a href="#" th:if="${login}" th:text="${login}" th:href="@{/login}">Zaloguj<a/></li>
-                    <li ><a href="#" th:if="${logout}" th:text="${logout}">Wyloguj<a/></li>
-                </div>
+    <nav id="topnav">
+        <div class="menu">
+            <li><a href="/">Strona główna<a/></li>
+            <li><a href="#" th:href="@{/userpanel}">Panel użytkownika<a/></li>
+            <li><a href="#" th:href="@{/register}">Rejestracja<a/></li>
+            <li><a href="#" th:if="${login}" th:text="${login}" th:href="@{/login}">Zaloguj<a/></li>
+            <li><a href="#" th:if="${logout}" th:text="${logout}">Wyloguj<a/></li>
+        </div>
 
-                </ul>
-            </nav>
-    </header>
+        </ul>
+    </nav>
+</header>
 
 
-    <p th:if="validationMessage" th:text="${validationMessage}">Default validation message</p>
-    <p th:if="${message}" th:text="${message}">This will show if user was added</p>
+<p th:if="validationMessage" th:text="${validationMessage}">Default validation message</p>
+<p th:if="${message}" th:text="${message}">This will show if user was added</p>
 
-    <h3>Dodaj produkt</h3>
-    <div id="addForm">
+<h3>Dodaj produkt</h3>
+<div id="addForm">
     <form action="#" th:action="@{/addProduct}" method="post" th:object="${Product}">
         <p>Nazwa: </p>
         <input type="text" name="name">
-        <br />
+        <br/>
         <p>Kalorie na 100g:</p>
         <input type="number" name="calories">
-        <br /><br />
+        <br/><br/>
         <textarea rows="5" cols="20" name="details">Opis...</textarea>
-        <br />
-        <input type="submit"  value="Dodaj">
+        <br/>
+        <input type="submit" value="Dodaj">
     </form>
-    </div>
+</div>
 
-    <h3>Dodaj produkt do listy usera</h3>
-        <form action="#" th:action="@{/addProductToList}" method="post" th:object="${Product}" >
-            <p>Nazwa: </p>
-            <input type="text" name="name">
-            <br />
-            <p>Kalorie na 100g:</p>
-            <input type="number" name="calories">
-            <br /><br />
-            <textarea rows="5" cols="20" name="details">Opis...</textarea>
-            <br />
-            <input type="submit"  value="Dodaj">
-        </form>
+<h3>Dodaj produkt do listy usera</h3>
+<form action="#" th:action="@{/addProductToList}" method="post" th:object="${Product}">
+    <p>Nazwa: </p>
+    <input type="text" name="name">
+    <br/>
+    <p>Kalorie na 100g:</p>
+    <input type="number" name="calories">
+    <br/><br/>
+    <textarea rows="5" cols="20" name="details">Opis...</textarea>
+    <br/>
+    <input type="submit" value="Dodaj">
+    <br />
+
+</form>
 
 
-        <a th:href="@{/show_list}">Show List</a>
 
-    <!--
-    <form action="logmeout" th:action="@{/logmeout}" method="post">
-        <input type="submit" value="Logout">
-    </form>
-    -->
+
+<!--
+<form action="logmeout" th:action="@{/logmeout}" method="post">
+    <input type="submit" value="Logout">
+</form>
+-->
 
 
 </body>

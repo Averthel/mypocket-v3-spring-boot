@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
- <p>Hello in user panel</p>
+ <p>Welcome in user panel</p>
+
+
+    <p>Your calories today: </p>
+    <p th:text="*{sum}">0</p>
+
+
+
+    <br /><br />
+    <a th:href="@{/show_list}">Show your products list</a>
+
+
 
 </body>
 </html>

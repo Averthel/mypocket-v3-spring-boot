@@ -20,14 +20,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository){
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         org.springframework.security.core.userdetails.User userDetails =
@@ -38,9 +38,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userDetails;
     }
 
-    private Set<GrantedAuthority> convertAuthorities(Set<UserRole> userRoles){
+    private Set<GrantedAuthority> convertAuthorities(Set<UserRole> userRoles) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        for(UserRole ur: userRoles){
+        for (UserRole ur : userRoles) {
             authorities.add(new SimpleGrantedAuthority(ur.getRole()));
         }
         return authorities;
