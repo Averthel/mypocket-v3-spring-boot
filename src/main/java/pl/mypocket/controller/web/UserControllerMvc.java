@@ -70,9 +70,10 @@ public class UserControllerMvc {
             user.addProductToList(product);
             userService.save(user);
             model.addAttribute("message", "Produkt " +product.getName()+ " dodany");
+            userService.save(user);
+        }else {
+            model.addAttribute("message", "Nie duało sie dodać produktu");
         }
-        model.addAttribute("message", "Nie duało sie dodać produktu");
-        userService.save(user);
         return "index";
     }
 

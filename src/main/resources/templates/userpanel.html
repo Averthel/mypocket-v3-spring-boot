@@ -17,7 +17,20 @@
     <br /><br />
     <a th:href="@{/show_list}">Show your products list</a>
 
+ <h3>Dodaj produkt do listy usera</h3>
+ <form action="#" th:action="@{/addProductToList}" method="post" th:object="${Product}">
+     <p>Nazwa: </p>
+     <input type="text" name="name">
+     <br/>
+     <p>Kalorie na 100g:</p>
+     <input type="number" name="calories">
+     <br/><br/>
+     <textarea rows="5" cols="20" name="details">Opis...</textarea>
+     <br/>
+     <input type="submit" value="Dodaj">
+     <br />
 
+ </form>
 
 </body>
 </html>

@@ -13,31 +13,30 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_product")
-    private Long id;
+    private long id;
     @Column(name = "product_name")
     private String name;
     @Column(name = "calories")
     private Double calories;
-    @Column(name = "details")
-    private String details;
+    @Column(name = "producer")
+    private String producer;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Product() {
-    }
+    public Product() { }
 
-    public Product(String name, Double calories, String details) {
+    public Product(String name, Double calories, String producer) {
         this.name = name;
         this.calories = calories;
-        this.details = details;
+        this.producer = producer;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -57,12 +56,12 @@ public class Product implements Serializable {
         this.calories = calories;
     }
 
-    public String getDetails() {
-        return details;
+    public String getProducer() {
+        return producer;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setProducer(String producer) {
+        this.producer = producer;
     }
 
     public User getUser() {
@@ -79,8 +78,34 @@ public class Product implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", calories=" + calories +
-                ", details='" + details + '\'' +
+                ", producer='" + producer + '\'' +
+                ", user=" + user +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+
+        Product product = (Product) o;
+
+        if (getId() != product.getId()) return false;
+        if (getName() != null ? !getName().equals(product.getName()) : product.getName() != null) return false;
+        if (getCalories() != null ? !getCalories().equals(product.getCalories()) : product.getCalories() != null)
+            return false;
+        if (getProducer() != null ? !getProducer().equals(product.getProducer()) : product.getProducer() != null)
+            return false;
+        return getUser() != null ? getUser().equals(product.getUser()) : product.getUser() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getCalories() != null ? getCalories().hashCode() : 0);
+        result = 31 * result + (getProducer() != null ? getProducer().hashCode() : 0);
+        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
+        return result;
+    }
 }

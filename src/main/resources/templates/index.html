@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html ng-app="app" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>MyPocket</title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
-<body>
+<body ng-controller="ProductController as prodControl">
 <header>
     <h1 class="logo">My Pocket &lt; /&gt;</h1>
 
@@ -22,6 +22,27 @@
     </nav>
 </header>
 
+<main>
+
+    <h1>{{prodControl.appName}}</h1>
+    <form>
+        <input type="text" ng-model="prodControl.product.name" placeholder="Name"><br>
+        <input type="text" ng-model="prodControl.product.producer" placeholder="Producer"><br>
+        <input type="text" ng-model="prodControl.product.calories" placeholder="calories"><br>
+        <button ng-click="prodControl.addProduct(prodControl.product)">Add Product</button>
+    </form>
+
+    <ul>
+        <li ng-repeat="prod in prodControl.products">
+            {{prod.name}} - {{prod.producer}} ({{prod.calories}} calories)
+        </li>
+    </ul>
+
+
+    <br />
+    <br />
+    <br />
+    <br />
 
 <p th:if="validationMessage" th:text="${validationMessage}">Default validation message</p>
 <p th:if="${message}" th:text="${message}">This will show if user was added</p>
@@ -57,6 +78,7 @@
 </form>
 
 
+</main>
 
 
 <!--
@@ -65,6 +87,7 @@
 </form>
 -->
 
-
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

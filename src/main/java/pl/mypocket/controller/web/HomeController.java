@@ -1,7 +1,6 @@
 package pl.mypocket.controller.web;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,40 +12,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.mypocket.model.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 import javax.validation.Valid;
-import java.io.IOException;
+
 import java.util.List;
 
 @Controller
 public class HomeController {
 
+    @RequestMapping("/")
+    public String home() {
+        return "index";
+    }
+
+    /*
     @GetMapping("/")
-    public String home(Model model) {
-        User user = new User();
-        model.addAttribute(user);
+    public String check(Model model){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(userName);
-        if(userName.equals("anonymousUser")){
+        if (userName.equals("anonymousUser")) {
             model.addAttribute("login", "Zaloguj się");
-        }else{
+        } else {
             model.addAttribute("logout", "Wyloguj się");
         }
         return "index";
     }
+    */
 
 
-
-    @PostMapping("/")
-    public String consumeForm(@Valid @ModelAttribute User user, BindingResult result) {
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            errors.forEach(err -> System.out.println(err.getDefaultMessage()));
-        }
-        return "index";
-    }
 
     @RequestMapping("/userpanel")
     public String userPanel() {
